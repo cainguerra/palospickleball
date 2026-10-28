@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palos Youth Pickleball</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #4a7c59 0%, #2d5a27 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #8b7355;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a7c59;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #4a7c59;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: #faf8f5;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #4a7c59;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: #f5f1e8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .blog-card h3 {
+            color: #5d4e37;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .blog-card .date {
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-card p {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .blog-card a {
+            color: #4a7c59;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .blog-card a:hover {
+            text-decoration: underline;
+        }
+
+        .location-card {
+            background: #f5f1e8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .location-card h3 {
+            color: #5d4e37;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .location-card .type {
+            color: #4a7c59;
+            font-size: 0.875rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-card p {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .location-card .details {
+            color: #666;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            color: white;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #4a7c59;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            background: #5d4e37;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-card {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Palos Youth Pickleball</div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#locations">Where to Play</a>
+                <a href="#blog">Blog</a>
+                <a href="mailto:palospickleball@outlook.com">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <img src="https://images.pexels.com/photos/29820786/pexels-photo-29820786.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&dpr=1" alt="Empty pickleball court with net in summer sun" class="hero-image">
+            <h1>Welcome to Palos Youth Pickleball</h1>
+            <p>Casual meet-ups and informal lessons for youth in Palos Heights, Palos Hills, Palos Park, and surrounding areas. Kids teaching kids—no pressure, just fun!</p>
+            <a href="mailto:palospickleball@outlook.com" class="cta-button">Join a Meet-up</a>
+        </section>
+
+        <div class="container">
+            <section id="about" class="section">
+                <h2>About Palos Youth Pickleball</h2>
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: #5d4e37; margin-bottom: 1rem; font-size: 1.5rem;">Our Mission</h3>
+                    <p style="color: #555; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Palos Youth Pickleball is a non-profit organization dedicated to building community through the sport of pickleball. We are youth teaching youth—passionate young players sharing their love of the game with beginners in the Palos Heights, Palos Hills, Palos Park, and surrounding communities.
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: #5d4e37; margin-bottom: 1rem; font-size: 1.5rem;">What We Do</h3>
+                    <p style="color: #555; line-height: 1.8; margin-bottom: 1rem;">
+                        We organize casual meet-ups and informal lessons where youth players can learn pickleball from their peers. No pressure, no complicated schedules—just young people coming together to play, learn, and connect through the sport.
+                    </p>
+                    <ul style="color: #555; line-height: 1.8; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Informal Lessons:</strong> Casual instruction from youth players</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Meet-ups:</strong> Opportunities to play and connect with other kids</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Peer Learning:</strong> Kids teaching kids in a relaxed setting</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Community Connection:</strong> Making friends through shared play</li>
+                    </ul>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: #5d4e37; margin-bottom: 1rem; font-size: 1.5rem;">Our Values</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: #f5f1e8; padding: 1rem; border-radius: 8px;">
+                            <strong style="color: #4a7c59;">Community</strong>
+                            <p style="color: #555; font-size: 0.9rem; margin-top: 0.5rem;">Building connections and friendships through casual play</p>
+                        </div>
+                        <div style="background: #f5f1e8; padding: 1rem; border-radius: 8px;">
+                            <strong style="color: #4a7c59;">Youth Leadership</strong>
+                            <p style="color: #555; font-size: 0.9rem; margin-top: 0.5rem;">Young people sharing knowledge and leading informally</p>
+                        </div>
+                        <div style="background: #f5f1e8; padding: 1rem; border-radius: 8px;">
+                            <strong style="color: #4a7c59;">Accessibility</strong>
+                            <p style="color: #555; font-size: 0.9rem; margin-top: 0.5rem;">No experience needed—everyone is welcome to join</p>
+                        </div>
+                        <div style="background: #f5f1e8; padding: 1rem; border-radius: 8px;">
+                            <strong style="color: #4a7c59;">Fun & Relaxed</strong>
+                            <p style="color: #555; font-size: 0.9rem; margin-top: 0.5rem;">Low-pressure environment focused on enjoyment</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: #5d4e37; margin-bottom: 1rem; font-size: 1.5rem;">Why Pickleball?</h3>
+                    <p style="color: #555; line-height: 1.8; margin-bottom: 1rem;">
+                        Pickleball is one of the fastest-growing sports in America because it's accessible, social, and fun. It's the perfect sport for bringing people together and building community. Our youth instructors love sharing this game because:
+                    </p>
+                    <ul style="color: #555; line-height: 1.8; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">It's easy to learn and quickly rewarding</li>
+                        <li style="margin-bottom: 0.5rem;">It's social and promotes teamwork</li>
+                        <li style="margin-bottom: 0.5rem;">It's great exercise and builds healthy habits</li>
+                        <li style="margin-bottom: 0.5rem;">It creates lasting friendships</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 style="color: #5d4e37; margin-bottom: 1rem; font-size: 1.5rem;">Our Story</h3>
+                    <p style="color: #555; line-height: 1.8;">
+                        We're just getting started, but our vision is clear: use pickleball as a way to connect young people in our community. Our youth instructors are passionate players who want to share what they've learned and help others discover this amazing sport. As a non-profit, we're driven by community service, not profit—our goal is simply to get more kids playing pickleball and building connections that last.
+                    </p>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h3 style="color: #5d4e37; margin-bottom: 1rem; font-size: 1.5rem;">Our Team</h3>
+                    <p style="color: #555; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Meet the youth player leading our meet-ups and sharing the love of pickleball with the community.
+                    </p>
+                    <div style="display: flex; justify-content: center;">
+                        <div style="background: #f5f1e8; padding: 2rem; border-radius: 8px; text-align: center; max-width: 400px;">
+                            <div style="width: 120px; height: 120px; background: #4a7c59; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold;">CG</div>
+                            <h4 style="color: #5d4e37; margin-bottom: 0.5rem; font-size: 1.5rem;">Cain Guerra</h4>
+                            <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Age 17</p>
+                            <p style="color: #555; font-size: 0.875rem; line-height: 1.6;">Passionate pickleball player with killer spins and a deadly dinker. From soft shots at the kitchen to dominating rallies, I love every aspect of the game. Ready to teach new players the fundamentals—from the dink game to third shot drops—and share the excitement of pickleball with everyone who wants to learn!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="locations" class="section">
+                <h2>Where to Play</h2>
+                <div class="blog-grid">
+                    <article class="location-card">
+                        <h3>Palos Heights Recreation Center</h3>
+                        <div class="type">Recreation Center</div>
+                        <p>Indoor courts available for casual play and meet-ups.</p>
+                        <div class="details">
+                            <strong>Address:</strong> 6600 W. 127th St, Palos Heights, IL 60463<br>
+                            <strong>Courts:</strong> 4 indoor<br>
+                            <strong>Notes:</strong> Great for indoor meet-ups during colder months
+                        </div>
+                    </article>
+
+                    <article class="location-card">
+                        <h3>Palos Hills Park District</h3>
+                        <div class="type">Park District</div>
+                        <p>Outdoor courts with open play opportunities.</p>
+                        <div class="details">
+                            <strong>Address:</strong> 8601 W. 103rd St, Palos Hills, IL 60465<br>
+                            <strong>Courts:</strong> 6 outdoor<br>
+                            <strong>Notes:</strong> Good for casual outdoor meet-ups
+                        </div>
+                    </article>
+
+                    <article class="location-card">
+                        <h3>Palos Park Recreation</h3>
+                        <div class="type">Recreation Department</div>
+                        <p>Family-friendly courts for informal play.</p>
+                        <div class="details">
+                            <strong>Address:</strong> 8901 W. 129th St, Palos Park, IL 60464<br>
+                            <strong>Courts:</strong> 2 outdoor<br>
+                            <strong>Notes:</strong> Quiet location for casual meet-ups
+                        </div>
+                    </article>
+
+                    <article class="location-card">
+                        <h3>Lesson Locations</h3>
+                        <div class="type">Program Sites</div>
+                        <p>We partner with local facilities to offer youth pickleball lessons at convenient locations.</p>
+                        <div class="details">
+                            <strong>Current Locations:</strong> Palos Heights, Palos Hills, Palos Park<br>
+                            <strong>Format:</strong> Group lessons for beginners<br>
+                            <strong>Registration:</strong> Contact us for upcoming sessions
+                        </div>
+                    </article>
+
+                    <article class="location-card">
+                        <h3>Orland Park Sports Complex</h3>
+                        <div class="type">Sports Facility</div>
+                        <p>Nearby facility with multiple courts for meet-ups.</p>
+                        <div class="details">
+                            <strong>Address:</strong> 11351 W. 159th St, Orland Park, IL 60467<br>
+                            <strong>Courts:</strong> 8 indoor<br>
+                            <strong>Notes:</strong> Option for larger group meet-ups
+                        </div>
+                    </article>
+
+                    <article class="location-card">
+                        <h3>Contact Information</h3>
+                        <div class="type">Get in Touch</div>
+                        <p>Have questions about our meet-ups? Reach out to learn more or join our next session.</p>
+                        <div class="details">
+                            <strong>Email:</strong> palospickleball@outlook.com<br>
+                            <strong>Contact:</strong> Cain Guerra<br>
+                            <strong>Response Time:</strong> Within 24-48 hours
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="blog" class="section">
+                <h2>Latest Blog Posts</h2>
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <h3>Getting Started with Pickleball</h3>
+                        <div class="date">October 27, 2026</div>
+                        <p>New to pickleball? Learn the basics of this fun and accessible sport. Our informal meet-ups are perfect for beginners—no experience needed!</p>
+                        <a href="mailto:palospickleball@outlook.com?subject=Blog Post: Getting Started with Pickleball">Read More →</a>
+                    </article>
+
+                    <article class="blog-card">
+                        <h3>Join Our Next Meet-up</h3>
+                        <div class="date">October 20, 2026</div>
+                        <p>Casual play sessions where kids can learn from peers and make new friends. Check our upcoming meet-ups and come join the fun!</p>
+                        <a href="mailto:palospickleball@outlook.com?subject=Blog Post: Join Our Next Meet-up">Read More →</a>
+                    </article>
+
+                    <article class="blog-card">
+                        <h3>Building Community Through Pickleball</h3>
+                        <div class="date">October 15, 2026</div>
+                        <p>How casual sports meet-ups create lasting friendships. Discover the power of pickleball to bring young people together.</p>
+                        <a href="mailto:palospickleball@outlook.com?subject=Blog Post: Building Community Through Pickleball">Read More →</a>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Palos Youth Pickleball. All rights reserved.</p>
+    </footer>
+</body>
+</html>
