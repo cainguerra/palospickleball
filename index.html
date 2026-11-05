@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Palos Youth Pickleball</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
     <style>
         * {
             margin: 0;
@@ -120,6 +121,26 @@
 
         .blog-card a:hover {
             text-decoration: underline;
+        }
+
+        .news-source {
+            display: inline-block;
+            background: #4a7c59;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-card .excerpt {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: #555;
+            margin-bottom: 1rem;
         }
 
         .blog-content {
@@ -534,12 +555,13 @@
 <body>
     <header>
         <nav>
-            <div class="logo">Palos Youth Pickleball</div>
+            <div class="logo"><img src="logo.svg" alt="Palos Youth Pickleball logo" style="height: 44px; width: 44px; vertical-align: middle; margin-right: 0.6rem; border-radius: 50%;">Palos Youth Pickleball</div>
             <div class="nav-links">
                 <a href="#about">About</a>
                 <a href="#meetups">Meet-ups</a>
                 <a href="#locations">Where We Play</a>
                 <a href="#resources">Resources</a>
+                <a href="#news">News</a>
                 <a href="#blog">Blog</a>
                 <a href="mailto:palospickleball@outlook.com">Contact</a>
             </div>
@@ -799,6 +821,22 @@
                 </div>
             </section>
 
+            <section id="news" class="resources-section">
+                <h2>Pickleball News</h2>
+                <p style="color: #555; margin-bottom: 1.5rem;">Stay up to date with the latest pickleball news, tournaments, and pro action—fresh from around the sport.</p>
+                <div id="newsFeed" class="resources-grid">
+                    <div class="resource-card" style="grid-column: 1 / -1; text-align: center; color: #666;">
+                        Loading latest pickleball news...
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <a href="https://pickleballtv.com/" target="_blank" class="resource-card" style="max-width: 320px;">
+                        <h3>Watch on Pickleball TV</h3>
+                        <p>24/7 pickleball network with live PPA and MLP tournaments, highlights, and news.</p>
+                    </a>
+                </div>
+            </section>
+
             <section id="blog" class="section">
                 <h2>Latest Blog Posts</h2>
                 <div class="blog-grid">
@@ -914,6 +952,7 @@
     </main>
 
     <footer>
+        <img src="logo.svg" alt="Palos Youth Pickleball logo" style="height: 56px; width: 56px; border-radius: 50%; margin-bottom: 0.5rem;">
         <p>&copy; 2026 Palos Youth Pickleball</p>
     </footer>
 
@@ -1091,6 +1130,135 @@
                 readMoreLink.style.display = 'inline-block';
             });
         });
+
+        // Pickleball news feed - pulls live RSS via a CORS proxy, falls back to sample items
+        const NEWS_FEEDS = [
+            { url: 'https://pickleballchannel.com/feed', source: 'Pickleball Channel' },
+            { url: 'https://pickletip.com/feed', source: 'PickleTip' }
+        ];
+
+        const NEWS_FALLBACK = [
+            {
+                title: 'Watch the PPA Tour and MLP live on Pickleball TV',
+                link: 'https://pickleballtv.com/',
+                source: 'Pickleball TV',
+                date: 'Ongoing',
+                excerpt: '24/7 pickleball network streaming live PPA and Major League Pickleball tournaments, player features, and instruction.'
+            },
+            {
+                title: 'USA Pickleball releases updated equipment standards',
+                link: 'https://usapickleball.org/',
+                source: 'USA Pickleball',
+                date: 'News',
+                excerpt: 'New paddle testing rules and tournament updates from the sport\'s governing body.'
+            },
+            {
+                title: 'Pickleball keeps growing across the US',
+                link: 'https://www.usapickleball.org/',
+                source: 'Community',
+                date: 'News',
+                excerpt: 'More courts, more players, more programs - the fastest growing sport in America.'
+            }
+        ];
+
+        function stripHtml(html) {
+            const doc = new DOMParser().parseFromString(html || '', 'text/html');
+            return doc.body.textContent.replace(/\s+/g, ' ').trim();
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+
+        function renderNews(items) {
+            const container = document.getElementById('newsFeed');
+            container.innerHTML = '';
+            items.slice(0, 9).forEach(item => {
+                const card = document.createElement('a');
+                card.className = 'resource-card news-card';
+                card.href = item.link;
+                card.target = '_blank';
+                card.rel = 'noopener';
+                card.innerHTML =
+                    `<span class="news-source">${escapeHtml(item.source)}</span>` +
+                    `<h3>${escapeHtml(item.title)}</h3>` +
+                    `<p style="color: #888; font-size: 0.8rem; margin-bottom: 0.5rem;">${escapeHtml(item.date)}</p>` +
+                    `<p class="excerpt">${escapeHtml(item.excerpt)}</p>` +
+                    `<p>Read more →</p>`;
+                container.appendChild(card);
+            });
+        }
+
+        function formatNewsDate(dateStr) {
+            const d = new Date(dateStr);
+            if (isNaN(d)) return 'News';
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function buildNewsItem(raw, source, fallbackLink) {
+            return {
+                title: raw.title || 'Untitled',
+                link: raw.link || fallbackLink,
+                source: source,
+                date: formatNewsDate(raw.pubDate || raw.date || ''),
+                excerpt: stripHtml(raw.description || raw.content || raw.excerpt || '')
+            };
+        }
+
+        // Primary: rss2json returns clean JSON
+        async function fetchFeedJson(feed) {
+            const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feed.url);
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('rss2json failed: ' + res.status);
+            const data = await res.json();
+            if (data.status !== 'ok' || !data.items || !data.items.length) {
+                throw new Error('rss2json returned no items');
+            }
+            return data.items.slice(0, 9).map(i => buildNewsItem(i, feed.source, feed.url));
+        }
+
+        // Backup: fetch raw RSS through a CORS proxy and parse the XML
+        async function fetchFeedXml(feed) {
+            const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(feed.url);
+            const res = await fetch(proxy);
+            if (!res.ok) throw new Error('Feed fetch failed: ' + res.status);
+            const xml = await res.text();
+            const doc = new DOMParser().parseFromString(xml, 'text/xml');
+            const items = [...doc.querySelectorAll('item')].slice(0, 9).map(item => ({
+                title: item.querySelector('title')?.textContent || '',
+                link: item.querySelector('link')?.textContent || '',
+                pubDate: item.querySelector('pubDate')?.textContent || '',
+                description: item.querySelector('description')?.textContent || ''
+            }));
+            if (!items.length) throw new Error('No items parsed');
+            return items.map(i => buildNewsItem(i, feed.source, feed.url))
+                        .filter(i => i.title !== 'Untitled' && i.excerpt);
+        }
+
+        async function fetchFeed(feed) {
+            try {
+                return await fetchFeedJson(feed);
+            } catch (e) {
+                console.warn('rss2json failed, trying RSS proxy:', e);
+                return await fetchFeedXml(feed);
+            }
+        }
+
+        async function loadNews() {
+            for (const feed of NEWS_FEEDS) {
+                try {
+                    renderNews(await fetchFeed(feed));
+                    return;
+                } catch (e) {
+                    console.warn('News feed failed:', feed.url, e);
+                }
+            }
+            renderNews(NEWS_FALLBACK);
+        }
+
+        loadNews();
     </script>
 </body>
 </html>
